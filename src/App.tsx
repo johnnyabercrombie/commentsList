@@ -1,26 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
 
-function App() {
+const CommentsList = () => {
+  const [comments, setComments] = useState<[]>([]);
+
+  const fetchComments = async () => {
+    const resp = await fetch("https://jsonplaceholder.typicode.com/comments");
+    if (resp.ok) {
+      const json = await resp.json();
+      setComments(json);
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      Test
+      {comments.length > 0 &&
+        comments.map((comment) => (
+          <CommentsListItem
+            name={comment["name"]}
+            email={comment["email"]}
+            body={comment["body"]}
+          />
+        ))}
+    </>
   );
-}
+};
+
+type CommentListItemProps = {
+  name: string;
+  email: string;
+  body: string;
+};
+
+const CommentsListItem = (props: CommentListItemProps) => {
+  const { name, email, body } = props;
+
+  return (
+    <>
+      Name: {name}
+      Email: {email}
+      Body: {body}
+    </>
+  );
+};
+
+const App = () => {
+  return (
+    <>
+      <CommentsList />
+    </>
+  );
+};
 
 export default App;
