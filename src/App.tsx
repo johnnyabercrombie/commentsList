@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
 
+/*
+- Get the list of comments from the following API https://jsonplaceholder.typicode.com/comments
+- Render the comments list as a component
+- Each list item should also be a sub component
+- List items should include the following data:
+    * name
+    * email
+    * body
+*/
+
 const CommentsList = () => {
   const [comments, setComments] = useState<[]>([]);
 
